@@ -19,11 +19,3 @@ class VoiceCommand(models.Model):
                     voice_command.meaning,
                     input_command.replace(voice_command.command, "").strip(),
                 )
-
-    def execute_command(self, meaning: int, data: str) -> str:
-        if meaning == 1:
-            return self.add_contact(data)
-        elif meaning == 2:
-            return self.find_contact(data)
-        else:
-            return "Command not found"
