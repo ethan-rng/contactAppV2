@@ -39,7 +39,11 @@ class Contact(models.Model):
 
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name
-
+    
+    def lastMet(self) -> str:
+        #go through all events and get most recent one
+        #if no events, return empty string
+        return
 
 class Relationship(models.Model):
     from_contact = models.ForeignKey(

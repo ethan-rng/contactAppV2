@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, Event, Relationship_Type, Photo, Contact, Relationship, MapContactEvent
+from .models import Profile, Event, Relationship_Type, Contact, Relationship, MapContactEvent
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,11 +14,6 @@ class EventSerializer(serializers.ModelSerializer):
 class RelationshipTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Relationship_Type
-        fields = '__all__'
-
-class PhotoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Photo
         fields = '__all__'
 
 class ContactSerializer(serializers.ModelSerializer):
