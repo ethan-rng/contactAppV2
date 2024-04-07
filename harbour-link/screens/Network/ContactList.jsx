@@ -1,24 +1,23 @@
 import React from 'react'
 import {Text, SafeAreaView, StyleSheet,View,TextInput} from "react-native"
-import ContactList from "./ContactList"
-const Network = () => {
+
+const contactList = (props) => {
   return (
     <SafeAreaView >
-      <TextInput placeholder='Search for contacts' style={styles.searchBar} />
-      <ContactList name="Ethan Zhao" location="Western Founders Network"/>
+      <View style = {styles.background}>
+        <View style = {styles.leftHalf}>
+          
+        </View>
+        <View style = {styles.rightHalf}>
+          <Text style={styles.header}>{props.name}</Text>
+          <Text style = {styles.description}>{props.location}</Text>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  searchBar: {
-    paddingHorizontal: 20,
-    paddingVertical:10,
-    borderColor: '#C5C2C2',
-    borderWidth: 1,
-    borderRadius: 30,
-    margin: 15,
-  },
   background: {
     flexDirection: 'row',
     width: 360,
@@ -36,15 +35,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   header: {
-    paddingTop: 15,
+    paddingTop: 35,
     fontFamily: 'Inter',
     fontSize: 20,
     fontWeight: 'bold',
-    lineHeight: 30,
+    lineHeight: 10,
     color: '#000000',
+    width: 245,
+    height: 50,
+  },
+  description: {
+    fontFamily: 'Inter',
+    fontSize: 15,
+    lineHeight: 21,
+    color: '#000000',
+    width: 245,
+    height: 90,
   }
-
-
 }
 );
-export default Network;
+export default contactList;
