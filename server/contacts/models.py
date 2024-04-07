@@ -39,11 +39,44 @@ class Contact(models.Model):
 
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name
-    
-    def lastMet(self) -> str:
-        #go through all events and get most recent one
-        #if no events, return empty string
-        return
+
+    @classmethod
+    def get_contact_by_name(cls, name: str):
+        name_parts = name.split(" ")
+        if len(name_parts) > 2:
+            raise NotImplementedError("Only first and last names are supported")
+
+        if len(name_parts) == 2:
+            queryset = cls.objects.filter(
+                first_name=name_parts[0], last_name=name_parts[1]
+            )
+        else:
+            queryset = cls.objects.filter(first_name=name_parts[0])
+
+        if len(name_parts) == 1:
+            queryset = queryset.union(
+                cls.objects.filter(last_name=name_parts[0]),
+                cls.objects.filter(first_name=name_parts[0]),
+            )
+
+        if queryset == None:
+            return None
+
+        if queryset.exists():
+            return queryset.first()
+        else:
+            return None
+
+    def create_contact_by_name(cls, name: str) -> None:
+        name_parts = name.split(" ")
+        if len(name_parts) > 2:
+            raise NotImplementedError("Only first and last names are supported")
+
+        if len(name_parts) == 2:
+            cls.objects.create(first_name=name_parts[0], last_name=name_parts[1])
+        else:
+            cls.objects.create(first_name=name_parts[0])
+
 
 class Relationship(models.Model):
     from_contact = models.ForeignKey(
