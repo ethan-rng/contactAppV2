@@ -39,6 +39,7 @@ class Contact(models.Model):
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name
 
+
 class Relationship(models.Model):
     from_contact = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name = "from_contact")
     to_contact = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name = "to_contact")
