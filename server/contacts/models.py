@@ -27,10 +27,6 @@ class Relationship_Type(models.Model):
         return self.description
 
 
-class Photo(models.Model):
-    photo_url = models.ImageField()
-
-
 class Contact(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
@@ -38,7 +34,7 @@ class Contact(models.Model):
     email = models.EmailField(null=True)
     phone_number = models.BigIntegerField(null=True)
     birthdate = models.DateField(null=True)
-    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
+    photo = models.ImageField(upload_to="photos/", null=True)
     notes = models.TextField(default="")
 
     def __str__(self) -> str:
