@@ -53,9 +53,7 @@ const TabNavigator = () => {
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
-            <Image source={require('../assets/MenuBar/Home.jpeg')} 
-            style={{ height: 30, width: 30}} 
-            />
+            focused ? <Image source={require('../assets/MenuBar/HomeHue.jpeg')} style={{ height: 30, width: 30}}/> : <Image source={require('../assets/MenuBar/Home.jpg')} style={{ height: 30, width: 30}}/>
           ),
         }}
       />
@@ -65,7 +63,7 @@ const TabNavigator = () => {
         options={{
           title: 'Network',
           tabBarIcon: ({ focused }) => (
-            <Image source={require('../assets/MenuBar/Network.jpeg')} style={{ height: 30, width: 30 }} />
+            focused ? <Image source={require('../assets/MenuBar/NetworkHue.jpg')} style={{ height: 30, width: 30 }} /> : <Image source={require('../assets/MenuBar/Network.jpeg')} style={{ height: 30, width: 30 }} />
           ),
         }}
       />
@@ -75,7 +73,7 @@ const TabNavigator = () => {
         options={{
           title: 'FaceID',
           tabBarIcon: ({ focused }) => (
-            <Image source={require('../assets/MenuBar/FaceID.jpeg')} style={{ height: 30, width: 30 }} />
+            focused ? <Image source={require('../assets/MenuBar/FaceIDHue.jpg')} style={{ height: 30, width: 30 }} /> : <Image source={require('../assets/MenuBar/FaceID.jpeg')} style={{ height: 30, width: 30 }} />
           ),
         }}
       />
@@ -85,7 +83,7 @@ const TabNavigator = () => {
         options={{
           title: 'Add Profile',
           tabBarIcon: ({ focused }) => (
-            focused ? <Image source={require('../assets/MenuBar/Add.jpeg')} style={{ height: 30, width: 30 }} /> : <Image source={require('../assets/MenuBar/FaceID.jpeg')} style={{ height: 30, width: 30 }} />
+            focused ? <Image source={require('../assets/MenuBar/AddProfileHue.jpg')} style={{ height: 30, width: 30 }} /> : <Image source={require('../assets/MenuBar/Add.jpeg')} style={{ height: 30, width: 30 }} />
           ),
         }}
       />
@@ -95,7 +93,7 @@ const TabNavigator = () => {
         options={{
           title: 'Profile',
           tabBarIcon: ({ focused }) => (
-            <Image source={require('../assets/MenuBar/Profile.jpeg')} style={{ height: 30, width: 30 }} />
+            focused ? <Image source={require('../assets/MenuBar/ProfileHue.jpg')} style={{ height: 30, width: 30 }} /> : <Image source={require('../assets/MenuBar/Profile.jpeg')} style={{ height: 30, width: 30 }} />
           ),
         }}
       />
@@ -105,23 +103,8 @@ const TabNavigator = () => {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
+  background: {
+    backgroundColor: 'white',
   },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 900,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
+  
 });
