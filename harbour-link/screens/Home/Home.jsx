@@ -1,13 +1,16 @@
 import React from 'react'
-import { Text } from "react-native"
-import { View } from 'react-native'
+import { Text,View,StyleSheet} from "react-native"
 const Home = () => {
   return (
-    <View>
+    <View style = {styles.background}>
       <Text>HOME PAGE!!</Text>
     </View>
     
   )
 }
-
+const styles = StyleSheet.create({
+  background: {
+    backgroundColor: 'white',
+  },
+})
 export default Home;
