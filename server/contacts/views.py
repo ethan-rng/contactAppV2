@@ -16,7 +16,9 @@ class ProfileList(APIView):
         return Response(serializer.data)
 
 class ContactList(APIView):
+    model = Contact
     serializer_class = ContactSerializer
+    queryset = Contact.objects.all()
 
     def get_queryset(self):
         # Set the primary key to 1
@@ -28,13 +30,10 @@ class ContactList(APIView):
         # Return all contacts associated with the profile
         return Contact.objects.filter(user=profile)
 
-    def get(self, request, format=None):
-        contacts = self.get_queryset()
-        serializer = self.serializer_class(contacts, many=True)
-        return Response(serializer.data)
-
 class ContactDetail(APIView):
+    model = Contact
     serializer_class = ContactSerializer
+    queryset = Contact.objects.all()
 
     def get_queryset(self):
         # Return the contact associated with the profile
@@ -43,9 +42,11 @@ class ContactDetail(APIView):
 
     def get(self, request, pk, format=None):
         contact = self.get_queryset()
-        serializer = self.serializer_class(contact)
+        serializer = self.serializer_class(contact)  # Remove many=True
         return Response(serializer.data)
     
+    User = get_user_model()
+
     def post(self, request, pk, format=None):
         # Fetch the Profile associated with the current user
         try:
