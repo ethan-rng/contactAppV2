@@ -93,14 +93,10 @@ export default function App() {
           )
         }).catch(error => {console.error("u fuck up loser", error)})
       } */}
-        <Image
-          style={styles.preview}
-          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-        />
-        <Button
-          title="Find Another Person UwU"
-          onPress={() => setPhoto(undefined)}
-        />
+        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        <View style = {styles.buttonAfter}>
+          <Button title="Find Another Person" onPress={() => setPhoto(undefined)} />
+        </View>
       </SafeAreaView>
     );
   } else {
@@ -111,8 +107,7 @@ export default function App() {
             <Button title="Take Picture" onPress={takePic} />
           </View>
         </View>
-        <StatusBar style="auto" />
-      </Camera>
+     </Camera>
     );
   }
 }
@@ -123,6 +118,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
   },
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: 'white',
+  },
   button: {
     alignItems: "center",
     justifyContent: "center",
@@ -130,17 +131,24 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: "white",
     borderRadius: 45,
-    color: "white",
   },
   preview: {
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     flex: 1,
   },
   buttonContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width:500,
     height: 95,
-    backgroundColor: "#9C9C9C",
+    backgroundColor: '#9C9C9C',
   },
-});
+  buttonAfter: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width:300,
+    height:50,
+    backgroundColor: 'white',
+    borderRadius: 50,
+  },
+}); 
