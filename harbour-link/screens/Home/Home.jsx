@@ -1,18 +1,22 @@
-import React from 'react'
-import { Text,View,StyleSheet} from "react-native"
-import RecentContacts from './RecentContacts'
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import RecentContacts from './RecentContacts';
+import ChatBox from './ChatBox';
 
 const Home = () => {
   return (
-    <View style = {styles.background}>
+    <View style={styles.container}>
       <RecentContacts />
+      <ChatBox />
     </View>
-    
-  )
-}
+  );
+};
+
 const styles = StyleSheet.create({
-  background: {
+  container: {
+    flex: 1,
     backgroundColor: 'white',
   },
-})
+});
+
 export default Home;
