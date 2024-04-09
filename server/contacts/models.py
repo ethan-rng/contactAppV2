@@ -36,6 +36,11 @@ class Contact(models.Model):
     birthdate = models.DateField(null=True)
     photo = models.ImageField(upload_to="photos/", null=True, blank=True)
     notes = models.TextField(default="", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["updated_at"]
 
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name
