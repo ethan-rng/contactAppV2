@@ -40,8 +40,9 @@ export default function App() {
       }),
     })
       .then((response) => response.json())
-      .then((data) => setHasFace(data["hasFace"]))
-      .then(console.log(hasFace));
+      .then((data) =>
+        alert(data["hasFace"] == "true" ? "Face Detected" : "No Face Detected")
+      );
   };
 
   if (hasCameraPermission === undefined) {
@@ -93,9 +94,15 @@ export default function App() {
           )
         }).catch(error => {console.error("u fuck up loser", error)})
       } */}
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-        <View style = {styles.buttonAfter}>
-          <Button title="Find Another Person" onPress={() => setPhoto(undefined)} />
+        <Image
+          style={styles.preview}
+          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+        />
+        <View style={styles.buttonAfter}>
+          <Button
+            title="Find Another Person"
+            onPress={() => setPhoto(undefined)}
+          />
         </View>
       </SafeAreaView>
     );
@@ -107,7 +114,7 @@ export default function App() {
             <Button title="Take Picture" onPress={takePic} />
           </View>
         </View>
-     </Camera>
+      </Camera>
     );
   }
 }
@@ -120,9 +127,9 @@ const styles = StyleSheet.create({
   },
   container2: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    backgroundColor: 'white',
+    alignItems: "center",
+    justifyContent: "flex-end",
+    backgroundColor: "white",
   },
   button: {
     alignItems: "center",
@@ -133,22 +140,22 @@ const styles = StyleSheet.create({
     borderRadius: 45,
   },
   preview: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     flex: 1,
   },
   buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width:500,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 500,
     height: 95,
-    backgroundColor: '#9C9C9C',
+    backgroundColor: "#9C9C9C",
   },
   buttonAfter: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width:300,
-    height:50,
-    backgroundColor: 'white',
+    alignItems: "center",
+    justifyContent: "center",
+    width: 300,
+    height: 50,
+    backgroundColor: "white",
     borderRadius: 50,
   },
-}); 
+});
