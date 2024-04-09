@@ -4,11 +4,27 @@ import { View, TextInput, Button, StyleSheet, Keyboard, KeyboardAvoidingView, Pl
 const ChatBox = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [result, setResult] = useState('');
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
   const sendMessage = () => {
     Keyboard.dismiss();
     // Add the message to the array of messages
     setMessages(prevMessages => [...prevMessages, { text: message, sentByMe: true }]);
+    // Send message to backend
+    // fetch(`${apiUrl}/voicecommands/textcommand`, {
+    fetch(`${apiUrl}/voicecommands`,{
+        method: 'post',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            command: message
+        })
+    }).then(response => response.json())
+    .then(data => setResult(data));
+    // Add message to backend
+    setMessage(prevMessages => [...prevMessages, {text: result, sendByMe: false}]);
     // For simplicity, let's clear the input field after sending the message
     setMessage('');
   };
