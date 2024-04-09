@@ -34,8 +34,8 @@ class Contact(models.Model):
     email = models.EmailField(null=True)
     phone_number = models.BigIntegerField(null=True)
     birthdate = models.DateField(null=True)
-    photo = models.ImageField(upload_to="photos/", null=True)
-    notes = models.TextField(default="")
+    photo = models.ImageField(upload_to="photos/", null=True, blank=True)
+    notes = models.TextField(default="", blank=True)
 
     def __str__(self) -> str:
         return self.first_name + " " + self.last_name
