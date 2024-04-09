@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Face
-from .utils.facerec import base64_to_np, crop_face, predict
+from .utils.facerec import base64_to_np, crop_face
 import cv2
 import os
 
