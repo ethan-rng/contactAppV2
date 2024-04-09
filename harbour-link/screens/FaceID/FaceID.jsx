@@ -9,8 +9,7 @@ import {
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
-import { shareAsync } from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function App() {
   let cameraRef = useRef();
@@ -18,6 +17,7 @@ export default function App() {
   const [photo, setPhoto] = useState(null);
   const [hasFace, setHasFace] = useState(false);
   const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     (async () => {
@@ -26,6 +26,10 @@ export default function App() {
     })();
     setPhoto(null);
   }, []);
+
+  useEffect(() => {
+    setHasFace(false);
+  }, [isFocused]);
 
   const isFace = (base64img) => {
     fetch(`${apiUrl}/facerec/recognize/`, {
@@ -36,12 +40,8 @@ export default function App() {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        setHasFace(data["hasFace"]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then((data) => setHasFace(data["hasFace"]))
+      .then(console.log(hasFace));
   };
 
   if (hasCameraPermission === undefined) {
