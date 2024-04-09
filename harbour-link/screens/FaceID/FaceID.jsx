@@ -39,7 +39,7 @@ export default function App() {
   if (photo) {
     return (
       <SafeAreaView style={styles.container}>
-      {
+      {/* {
         // Send Picture To Backend
         fetch("http://127.0.0.1:8000/facerec/recognize", {
           method: "POST",
@@ -62,7 +62,7 @@ export default function App() {
             </>
           )
         }).catch(error => {console.error("u fuck up loser", error)})
-      }
+      } */}
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
         <Button title="Find Another Person UwU" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
@@ -91,21 +91,21 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 90,
-    height: 90,
+    width: 80,
+    height: 80,
     backgroundColor: 'white',
     borderRadius: 45,
-    marginTop: 450,
+    color: 'white',
   },
   preview: {
     alignSelf: 'stretch',
     flex: 1
   },
   buttonContainer: {
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
     width: 400,
-    height: 100,
-    backgroundColor: 'black',
+    height: 95,
+    backgroundColor: '#9C9C9C',
   }
 }); 
