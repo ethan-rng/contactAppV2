@@ -10,7 +10,7 @@ class Face(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.contact.name
+        return str(self.pk) + " " + self.contact.first_name + " " + self.contact.last_name
     
     @classmethod
     def create(cls, contact_id: int, image64: str) -> None:

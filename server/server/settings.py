@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'contacts'
+    'contacts',
+    'facerec',
+    'voicecommands',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
