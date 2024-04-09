@@ -13,7 +13,10 @@ import Parameter from "./Parameter";
 import QRCode from "react-native-qrcode-svg";
 import { INITIAL_64IMG } from './initial'
 
+
+
 const Profile = () => {
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
   const [icons, setIcons] = useState([
     {
       name: "Phone Number",
@@ -43,7 +46,7 @@ const Profile = () => {
   ]);
   const [loading, setLoading] = useState(false);
 
-  const [base64Image, setBase64Image] = useState(INITIAL_64IMG);
+  // const [base64Image, setBase64Image] = useState(INITIAL_64IMG);
   const [username, setuserName] = useState("Stephanie Li");
   const [userCompany, setUserCompany] = useState("WFN");
   const [userJob, setUserJob] = useState("Project Director");
@@ -74,7 +77,7 @@ const Profile = () => {
               {showQR ?
                 <Image
                   style={styles.profile}
-                  source={{ uri: "data:image/png;base64," + base64Image }}
+                  source={{ uri: `${apiUrl}/media/photos/mainprofile.jpeg`}}
                 />
                 :
                 <QRCode

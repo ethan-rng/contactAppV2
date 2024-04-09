@@ -7,28 +7,31 @@ import ContactList from "./ContactList"
 const Network = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredNames, setFilteredNames] = useState(namesList);
-  const namesList = [
-    'Emma', 'Noah', 'Olivia', 'Liam', 'Ava', 'William', 'Isabella',
-    'James', 'Sophia', 'Oliver', 'Mia', 'Benjamin', 'Charlotte',
-    'Elijah', 'Amelia', 'Lucas', 'Harper', 'Mason', 'Evelyn',
-  ];
-  const filterNames = (query) => {
-    setSearchQuery(query);
-    if (!query.trim()) {  
-      setFilteredNames(namesList); // Reset to full list if query is empty
-    } else {
-      const filtered = namesList.filter((name) =>
-        name.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredNames(filtered);
-    }
-  };
+  const [contacts, setContacts] = useState([]);
+  // const namesList = [
+  //   'Emma', 'Noah', 'Olivia', 'Liam', 'Ava', 'William', 'Isabella',
+  //   'James', 'Sophia', 'Oliver', 'Mia', 'Benjamin', 'Charlotte',
+  //   'Elijah', 'Amelia', 'Lucas', 'Harper', 'Mason', 'Evelyn',
+  // ];
+  
+
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  useEffect(() => {
+    fetch(`${apiUrl}/api/contacts`)
+    .then(response => response.json())
+    .then(data => setContacts(data))
+}, [])
   return (
     <SafeAreaView >
-      <TextInput placeholder='Search for contacts' style={styles.searchBar} value={searchQuery} onChangeText={filterNames} />
+      <TextInput placeholder='Search for contacts' style={styles.searchBar} value={searchQuery} onChangeText={setSearchQuery} />
       <FlatList data={filteredNames} keyExtractor={(item) => item}
         renderItem={({ item }) => <Text style={styles.name}>{item}</Text>} />
-      <ContactList name="Ethan Zhao" location="Western Founders Network" pronoun="she/her" />
+      {contacts.filter(contact => (contact.first_name + " " + contact.last_name).includes(searchQuery)).map(contact => {
+                return (
+                  <ContactList name= {contact.first_name+" "+contact.last_name} 
+                  location="Western Founders Network" pronoun={contact.pronouns} image = {contact.image}/>
+                )
+            })}
     </SafeAreaView>
   );
 }
