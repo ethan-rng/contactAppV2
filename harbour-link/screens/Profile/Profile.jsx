@@ -11,9 +11,7 @@ import {
 } from "react-native";
 import Parameter from "./Parameter";
 import QRCode from "react-native-qrcode-svg";
-import { INITIAL_64IMG } from './initial'
-
-
+import { INITIAL_64IMG } from "./initial";
 
 const Profile = () => {
   const apiUrl = process.env.EXPO_PUBLIC_API_URL;
@@ -47,7 +45,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
 
   // const [base64Image, setBase64Image] = useState(INITIAL_64IMG);
-  const [username, setuserName] = useState("Stephanie Li");
+  const [username, setuserName] = useState("Ethan Rong");
   const [userCompany, setUserCompany] = useState("WFN");
   const [userJob, setUserJob] = useState("Project Director");
   const [userPronouns, setUserPronouns] = useState("he/him");
@@ -58,7 +56,7 @@ const Profile = () => {
     setLoading(false);
 
     // Fetching to Database
-    fetch((BASE) => { }, [loading]);
+    fetch((BASE) => {}, [loading]);
   };
 
   if (loading) {
@@ -73,13 +71,16 @@ const Profile = () => {
         <SafeAreaView style={styles.container}>
           <View style={styles.profileContainer}>
             <TouchableOpacity
-              onPress={() => { setshowQR(!showQR) }}>
-              {showQR ?
+              onPress={() => {
+                setshowQR(!showQR);
+              }}
+            >
+              {showQR ? (
                 <Image
                   style={styles.profile}
-                  source={{ uri: `${apiUrl}/media/photos/mainprofile.jpeg`}}
+                  source={{ uri: `${apiUrl}/media/photos/mainprofile.jpeg` }}
                 />
-                :
+              ) : (
                 <QRCode
                   value={JSON.stringify({
                     name: username,
@@ -96,7 +97,7 @@ const Profile = () => {
                   style={styles.QRCode}
                   size={100}
                 />
-              }
+              )}
             </TouchableOpacity>
 
             <View style={styles.info}>
