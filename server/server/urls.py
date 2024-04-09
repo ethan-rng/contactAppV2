@@ -15,8 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+#from contacts.views import ProfileListCreate, EventListCreate, RelationshipTypeListCreate, PhotoListCreate, ContactListCreate, RelationshipListCreate, MapContactEventListCreate
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('contacts.urls'))
+    # path('api/profiles/', ProfileListCreate.as_view(), name='profile-list-create'),
+    # path('api/events/', EventListCreate.as_view(), name='event-list-create'),
+    # path('api/relationship-types/', RelationshipTypeListCreate.as_view(), name='relationship-type-list-create'),
+    # path('api/photos/', PhotoListCreate.as_view(), name='photo-list-create'),
+    # path('api/contacts/', ContactListCreate.as_view(), name='contact-list-create'),
+    # path('api/relationships/', RelationshipListCreate.as_view(), name='relationship-list-create'),
+    # path('api/map-contact-events/', MapContactEventListCreate.as_view(), name='map-contact-event-list-create'),
 ]
