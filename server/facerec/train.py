@@ -17,11 +17,18 @@ def load_images_from_folder(folder):
                 print(f"Unable to read image: {img_path}")
     except Exception as e:
         print(f"Error loading images from folder: {e}")
+        return None, None  # Return None values in case of error
     return images, labels
 
-
 # Path to the directory containing face images
-dataset_folder = 'server/facerec/data/lfw-deepfunneled/Aaron_Eckhart'
+dataset_folder = 'server/facerec/datasets'
+cwd = os.getcwd()
+print(cwd)
+
+# Check if the dataset folder exists
+if not os.path.exists(dataset_folder):
+    print(f"Dataset folder '{dataset_folder}' not found.")
+    exit()
 
 # Load face images and labels from the dataset
 images, labels = load_images_from_folder(dataset_folder)
