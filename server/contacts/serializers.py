@@ -29,12 +29,16 @@ class RelationshipTypeSerializer(serializers.ModelSerializer):
 
 class ContactSummarySerializer(serializers.Serializer):
     def to_representation(self, instance):
+        if instance.photo:
+            photo = instance.photo.url
+        else:
+            photo = None
         return {
             "id": instance.id,
             "first_name": instance.first_name,
             "last_name": instance.last_name,
             "pronouns": instance.pronouns,
-            "photo_url": instance.photo.url,
+            "photo_url": photo,
         }
 
 
