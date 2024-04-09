@@ -1,11 +1,14 @@
 import React from 'react'
-import {Text, SafeAreaView, StyleSheet,View,TextInput} from "react-native"
+import {Text, SafeAreaView, StyleSheet,View,TextInput,Imge} from "react-native"
 
 const contactList = (props) => {
   return (
     <SafeAreaView >
       <View style = {styles.background}>
         <View style = {styles.leftHalf}>
+            <Image
+                  source={{ uri: `${apiUrl + props.image}`}}
+                />
         </View>
         <View style = {styles.rightHalf}>
           <Text style={styles.header}>{props.name}</Text>
