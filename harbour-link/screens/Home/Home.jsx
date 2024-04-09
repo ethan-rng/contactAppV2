@@ -1,9 +1,11 @@
 import React from 'react'
 import { Text,View,StyleSheet} from "react-native"
+import RecentContacts from './RecentContacts'
+
 const Home = () => {
   return (
     <View style = {styles.background}>
-      <Text>HOME PAGE!!</Text>
+      <RecentContacts />
     </View>
     
   )
