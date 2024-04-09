@@ -2,8 +2,6 @@ import cv2
 import numpy as np
 import base64
 
-
-
 def base64_to_np(base64_string):
     base64_string = base64_string.split(',')[-1]
 
@@ -27,3 +25,14 @@ def crop_face(image):
     faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     return faces
+
+def predict(face_recognizer, image):
+    # Convert the image to grayscale if it's not already in grayscale
+    if len(image.shape) != 2:
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray_image = image
+    
+    # Use the face recognition model to predict the identity of the face
+    label, confidence = face_recognizer.predict(gray_image)
+    return label, confidence

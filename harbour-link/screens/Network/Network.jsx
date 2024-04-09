@@ -1,11 +1,34 @@
-import React from 'react'
-import {Text, SafeAreaView, StyleSheet,View,TextInput} from "react-native"
+import { useState } from 'react'
+import { Text, SafeAreaView, StyleSheet, View, TextInput, FlatList } from "react-native"
 import ContactList from "./ContactList"
+
+
+
 const Network = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredNames, setFilteredNames] = useState(namesList);
+  const namesList = [
+    'Emma', 'Noah', 'Olivia', 'Liam', 'Ava', 'William', 'Isabella',
+    'James', 'Sophia', 'Oliver', 'Mia', 'Benjamin', 'Charlotte',
+    'Elijah', 'Amelia', 'Lucas', 'Harper', 'Mason', 'Evelyn',
+  ];
+  const filterNames = (query) => {
+    setSearchQuery(query);
+    if (!query.trim()) {  
+      setFilteredNames(namesList); // Reset to full list if query is empty
+    } else {
+      const filtered = namesList.filter((name) =>
+        name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredNames(filtered);
+    }
+  };
   return (
     <SafeAreaView >
-      <TextInput placeholder='Search for contacts' style={styles.searchBar} />
-      <ContactList name="Ethan Zhao" location="Western Founders Network" pronoun="she/her"/>
+      <TextInput placeholder='Search for contacts' style={styles.searchBar} value={searchQuery} onChangeText={filterNames} />
+      <FlatList data={filteredNames} keyExtractor={(item) => item}
+        renderItem={({ item }) => <Text style={styles.name}>{item}</Text>} />
+      <ContactList name="Ethan Zhao" location="Western Founders Network" pronoun="she/her" />
     </SafeAreaView>
   );
 }
@@ -13,7 +36,7 @@ const Network = () => {
 const styles = StyleSheet.create({
   searchBar: {
     paddingHorizontal: 20,
-    paddingVertical:10,
+    paddingVertical: 10,
     borderColor: '#C5C2C2',
     borderWidth: 1,
     borderRadius: 30,
