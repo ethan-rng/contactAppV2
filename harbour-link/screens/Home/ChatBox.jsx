@@ -32,7 +32,7 @@ const ChatBox = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        command: message,
+        command: message.toLowerCase(),
       }),
     })
       .then((response) => response.json())

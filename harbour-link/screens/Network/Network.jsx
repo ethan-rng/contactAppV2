@@ -40,6 +40,7 @@ const Network = () => {
           .map((contact) => {
             return (
               <ContactList
+                key={contact.id}
                 first_name={contact.first_name}
                 last_name={contact.last_name}
                 location="Western Founders Network"

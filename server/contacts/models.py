@@ -76,6 +76,7 @@ class Contact(models.Model):
 
     @classmethod
     def create_contact_by_name(cls, name: str) -> None:
+        name = name.title()
         name_parts = name.split(" ")
         if len(name_parts) > 2:
             raise NotImplementedError("Only first and last names are supported")

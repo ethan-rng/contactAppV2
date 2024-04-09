@@ -69,22 +69,18 @@ class ContactDetail(APIView):
         return Response(serializer.data)
 
     def post(self, request, pk, format=None):
-        # Fetch the Profile associated with the current user
-        try:
-            user_profile = Profile.objects.get(user=request.user)
-        except Profile.DoesNotExist:
-            return Response(
-                {"error": "Profile not found for the current user."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+        profile = Profile.objects.get(pk=pk)
 
-        # Create a contact using the retrieved profile
-        serializer = self.serializer_class(data=request.data)
+        contact = Contact.objects.create(
+            user=profile,
+            first_name=request.data["first_name"],
+            last_name=request.data["last_name"],
+            pronouns=request.data["pronouns"],
+        )
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if contact:
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class EventListCreate(generics.ListCreateAPIView):
