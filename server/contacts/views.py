@@ -2,9 +2,24 @@ from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Profile, Event, Relationship_Type, Contact, Relationship, MapContactEvent
-from .serializers import ProfileSerializer, EventSerializer, RelationshipTypeSerializer, ContactSerializer, RelationshipSerializer, MapContactEventSerializer
+from .models import (
+    Profile,
+    Event,
+    Relationship_Type,
+    Contact,
+    Relationship,
+    MapContactEvent,
+)
+from .serializers import (
+    ProfileSerializer,
+    EventSerializer,
+    RelationshipTypeSerializer,
+    ContactSerializer,
+    RelationshipSerializer,
+    MapContactEventSerializer,
+)
 from django.contrib.auth import get_user_model
+
 
 class ProfileList(APIView):
     model = Profile
@@ -15,6 +30,7 @@ class ProfileList(APIView):
         serializer = self.serializer_class(profiles, many=True)
         return Response(serializer.data)
 
+
 class ContactList(APIView):
     model = Contact
     serializer_class = ContactSerializer
@@ -23,12 +39,18 @@ class ContactList(APIView):
     def get_queryset(self):
         # Set the primary key to 1
         pk = 1
-        
+
         # Retrieve the profile/user based on the provided primary key (pk)
         profile = Profile.objects.get(pk=pk)
-        
+
         # Return all contacts associated with the profile
         return Contact.objects.filter(user=profile)
+
+    def get(self, request, format=None):
+        contacts = self.get_queryset()
+        serializer = self.serializer_class(contacts, many=True)
+        return Response(serializer.data)
+
 
 class ContactDetail(APIView):
     model = Contact
@@ -37,7 +59,7 @@ class ContactDetail(APIView):
 
     def get_queryset(self):
         # Return the contact associated with the profile
-        pk = self.kwargs.get('pk')
+        pk = self.kwargs.get("pk")
         return Contact.objects.get(pk=pk)
 
     def get(self, request, pk, format=None):
@@ -45,33 +67,36 @@ class ContactDetail(APIView):
         serializer = self.serializer_class(contact)  # Remove many=True
         return Response(serializer.data)
     
-    User = get_user_model()
-
     def post(self, request, pk, format=None):
         # Fetch the Profile associated with the current user
         try:
             user_profile = Profile.objects.get(user=request.user)
         except Profile.DoesNotExist:
-            return Response({"error": "Profile not found for the current user."},
-                            status=status.HTTP_404_NOT_FOUND)
-        
+            return Response(
+                {"error": "Profile not found for the current user."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
         # Create a contact using the retrieved profile
         serializer = self.serializer_class(data=request.data)
-        
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                            
+
+
 class EventListCreate(generics.ListCreateAPIView):
     model = Event
     serializer_class = EventSerializer
 
     def get(self, request, pk, format=None):
-        profile = self.model.objects.get(pk=pk)  # Correct syntax to get profile by its primary key
+        profile = self.model.objects.get(
+            pk=pk
+        )  # Correct syntax to get profile by its primary key
         serializer = self.serializer_class(profile)
         return Response(serializer.data)
-    
+
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -80,22 +105,26 @@ class EventListCreate(generics.ListCreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class RelationshipTypeListCreate(generics.ListCreateAPIView):
     model = Relationship_Type
     serializer_class = RelationshipTypeSerializer
 
     def get(self, request, pk, format=None):
-        profile = self.model.objects.get(pk=pk)  # Correct syntax to get profile by its primary key
+        profile = self.model.objects.get(
+            pk=pk
+        )  # Correct syntax to get profile by its primary key
         serializer = self.serializer_class(profile)
         return Response(serializer.data)
-    
+
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
 class RelationshipListCreate(generics.ListCreateAPIView):
     model = Relationship
     serializer_class = RelationshipSerializer
@@ -103,9 +132,9 @@ class RelationshipListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         # Retrieve the profile/user based on the provided primary key (pk)
-        pk = self.kwargs.get('pk')
+        pk = self.kwargs.get("pk")
         profile = Profile.objects.get(pk=pk)
-        
+
         # Return all relationships associated with the profile
         return Relationship.objects.filter(user=profile)
 
@@ -113,7 +142,7 @@ class RelationshipListCreate(generics.ListCreateAPIView):
         relationships = self.get_queryset()
         serializer = self.serializer_class(relationships, many=True)
         return Response(serializer.data)
-    
+
     # User = get_user_model()
 
     # def post(self, request, pk, format=None):
@@ -132,10 +161,10 @@ class RelationshipListCreate(generics.ListCreateAPIView):
     #         except Profile.DoesNotExist:
     #             return Response({"error": "Profile not found for the current user."},
     #                             status=status.HTTP_404_NOT_FOUND)
-            
+
     #         # Create a contact using the retrieved profile
     #         serializer = self.serializer_class(data=request.data)
-            
+
     #         if serializer.is_valid():
     #             serializer.save()
     #             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -144,15 +173,17 @@ class RelationshipListCreate(generics.ListCreateAPIView):
     #         return Response({"error": "You can only create relationships under your own profile."},
     #                         status=status.HTTP_403_FORBIDDEN)
 
+
 class MapContactEventListCreate(generics.ListCreateAPIView):
     model = MapContactEvent
     serializer_class = MapContactEventSerializer
 
     def get(self, request, pk, format=None):
-        profile = self.model.objects.get(pk=pk)  # Correct syntax to get profile by its primary key
+        profile = self.model.objects.get(
+            pk=pk
+        )  # Correct syntax to get profile by its primary key
         serializer = self.serializer_class(profile)
         return Response(serializer.data)
-    
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
@@ -160,4 +191,13 @@ class MapContactEventListCreate(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+class RecentThreeContacts(APIView):
+    model = Contact
+    serializer_class = ContactSerializer
+
+    def get(self, request, format=None):
+        # Retrieve the most recent three contacts
+        contacts = self.model.objects.all()[:3]
+        serializer = self.serializer_class(contacts, many=True)
+        return Response(serializer.data)
