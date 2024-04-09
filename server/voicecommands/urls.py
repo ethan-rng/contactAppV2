@@ -3,5 +3,5 @@ from .views import VoiceCommandView, TextCommandView
 
 urlpatterns = [
     path("voicecommand/", VoiceCommandView.as_view()),
-    path("textcommand/", TextCommandView.as_view()),
+    path("textcommand", TextCommandView.as_view()),
 ]

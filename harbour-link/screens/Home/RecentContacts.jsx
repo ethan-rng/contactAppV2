@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Text,View,StyleSheet} from "react-native"
-import { useState, useEffect } from 'react'
 
 const RecentContacts = () => {
     const apiUrl = process.env.EXPO_PUBLIC_API_URL;

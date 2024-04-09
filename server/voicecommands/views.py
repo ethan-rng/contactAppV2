@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,7 +14,7 @@ class VoiceCommandView(APIView):
     def post(self, request):
         audio = request.data["audio"]
         # convert audio to text
-        text = "create contact bob miller"
+        text = "add contact bob miller"
         command_pk, name = VoiceCommand.parse_command(text)
 
         if command_pk == 1:
@@ -35,7 +36,8 @@ class TextCommandView(APIView):
     model = VoiceCommand
 
     def post(self, request):
-        text = request.data["command"]
+        data = json.loads(request.body.decode('utf-8'))
+        text = data["command"]
         command_pk, name = VoiceCommand.parse_command(text)
 
         if command_pk == 1:
