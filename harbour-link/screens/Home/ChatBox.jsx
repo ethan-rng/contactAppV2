@@ -1,36 +1,80 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Keyboard, KeyboardAvoidingView, Platform, Text, ScrollView } from 'react-native';
 
 const ChatBox = () => {
   const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
 
   const sendMessage = () => {
-    // Here you can handle sending the message
-    console.log("Sending message:", message);
+    Keyboard.dismiss();
+    // Add the message to the array of messages
+    setMessages(prevMessages => [...prevMessages, { text: message, sentByMe: true }]);
     // For simplicity, let's clear the input field after sending the message
     setMessage('');
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Type your message..."
-        value={message}
-        onChangeText={setMessage}
-        multiline={true}
-      />
-      <Button
-        title="Send"
-        onPress={sendMessage}
-        disabled={!message.trim()} // Disable the button if there's no message
-      />
-    </View>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 140 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={styles.messagesContainer}
+        ref={(scrollView) => { scrollView?.scrollToEnd({ animated: true }) }}
+      >
+        {messages.map((msg, index) => (
+          <View key={index} style={[styles.messageContainer, msg.sentByMe ? styles.sentByMe : styles.received]}>
+            <Text style={styles.messageText}>{msg.text}</Text>
+          </View>
+        ))}
+      </ScrollView>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Type your message..."
+          value={message}
+          onChangeText={setMessage}
+          multiline={true}
+        />
+        <Button
+          title="Send"
+          onPress={sendMessage}
+          disabled={!message.trim()}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  messagesContainer: {
+    flexGrow: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+  messageContainer: {
+    maxWidth: '80%',
+    alignSelf: 'flex-end',
+    marginVertical: 5,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#007AFF',
+  },
+  messageText: {
+    fontSize: 16,
+    color: 'white',
+  },
+  received: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#E5E5EA',
+    color: 'black',
+  },
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
