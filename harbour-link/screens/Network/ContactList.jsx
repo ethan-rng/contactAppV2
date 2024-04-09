@@ -6,10 +6,10 @@ const contactList = (props) => {
     <SafeAreaView >
       <View style = {styles.background}>
         <View style = {styles.leftHalf}>
-          
         </View>
         <View style = {styles.rightHalf}>
           <Text style={styles.header}>{props.name}</Text>
+          <Text style={styles.pronoun}>{props.pronoun}</Text>
           <Text style = {styles.description}>{props.location}</Text>
         </View>
       </View>
@@ -35,23 +35,28 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   header: {
-    paddingTop: 35,
-    fontFamily: 'Inter',
+    paddingTop: 26,
     fontSize: 20,
     fontWeight: 'bold',
     lineHeight: 10,
     color: '#000000',
     width: 245,
-    height: 50,
+    height: 35,
   },
   description: {
-    fontFamily: 'Inter',
     fontSize: 15,
     lineHeight: 21,
     color: '#000000',
     width: 245,
-    height: 90,
-  }
+    height:50,
+  },
+  pronoun: {
+    fontSize: 15,
+    lineHeight: 21,
+    color: '#7D7D7D',
+    width: 245,
+    height:25,
+  },
 }
 );
 export default contactList;

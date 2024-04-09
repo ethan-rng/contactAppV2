@@ -5,7 +5,7 @@ const Network = () => {
   return (
     <SafeAreaView >
       <TextInput placeholder='Search for contacts' style={styles.searchBar} />
-      <ContactList name="Ethan Zhao" location="Western Founders Network"/>
+      <ContactList name="Ethan Zhao" location="Western Founders Network" pronoun="she/her"/>
     </SafeAreaView>
   );
 }

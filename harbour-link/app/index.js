@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home/Home';
 import Network from '../screens/Network/Network';
 import FaceID from '../screens/FaceID/FaceID';
-import index from '../screens/AddProfile/index';
+import index from '../screens/AddProfile/AddProfile';
 import Profile from '../screens/Profile/Profile';
 
 
@@ -48,7 +48,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator initialRouteName='Home'>
       <Tab.Screen
-        name={'Home'}
+        name={'Home2'}
         component={Home}
         options={{
           title: 'Home',
@@ -71,7 +71,7 @@ const TabNavigator = () => {
         name={'FaceID'}
         component={FaceID}
         options={{
-          title: 'FaceID',
+          title: 'Scan Face',
           tabBarIcon: ({ focused }) => (
             focused ? <Image source={require('../assets/MenuBar/FaceIDHue.jpg')} style={{ height: 30, width: 30 }} /> : <Image source={require('../assets/MenuBar/FaceID.jpeg')} style={{ height: 30, width: 30 }} />
           ),
@@ -81,7 +81,7 @@ const TabNavigator = () => {
         name={'Add Profile'}
         component={index}
         options={{
-          title: 'Add Profile',
+          title: 'Scan QR code to add contact',
           tabBarIcon: ({ focused }) => (
             focused ? <Image source={require('../assets/MenuBar/AddProfileHue.jpg')} style={{ height: 30, width: 30 }} /> : <Image source={require('../assets/MenuBar/Add.jpeg')} style={{ height: 30, width: 30 }} />
           ),
@@ -104,7 +104,7 @@ const TabNavigator = () => {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: 'white',
+    backgroundColor: 'red',
   },
   
 });

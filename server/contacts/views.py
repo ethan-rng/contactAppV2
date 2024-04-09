@@ -32,7 +32,9 @@ class ProfileList(APIView):
 
 
 class ContactList(APIView):
+    model = Contact
     serializer_class = ContactSerializer
+    queryset = Contact.objects.all()
 
     def get_queryset(self):
         # Set the primary key to 1
@@ -51,7 +53,9 @@ class ContactList(APIView):
 
 
 class ContactDetail(APIView):
+    model = Contact
     serializer_class = ContactSerializer
+    queryset = Contact.objects.all()
 
     def get_queryset(self):
         # Return the contact associated with the profile
@@ -60,9 +64,9 @@ class ContactDetail(APIView):
 
     def get(self, request, pk, format=None):
         contact = self.get_queryset()
-        serializer = self.serializer_class(contact)
+        serializer = self.serializer_class(contact)  # Remove many=True
         return Response(serializer.data)
-
+    
     def post(self, request, pk, format=None):
         # Fetch the Profile associated with the current user
         try:
@@ -187,7 +191,6 @@ class MapContactEventListCreate(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class RecentThreeContacts(APIView):
     model = Contact
