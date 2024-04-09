@@ -21,8 +21,7 @@ from django.urls import path, include
 # from contacts.views import ProfileListCreate, EventListCreate, RelationshipTypeListCreate, PhotoListCreate, ContactListCreate, RelationshipListCreate, MapContactEventListCreate
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/", include("contacts.urls")),
-    path("facerec/", include("facerec.urls")),
-    path("voicecommands/", include("voicecommands.urls")),
+    path('admin/', admin.site.urls),
+    path('api/', include('contacts.urls')),
+    path('facerec/', include('facerec.urls')),
 ]

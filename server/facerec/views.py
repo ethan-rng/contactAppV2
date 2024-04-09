@@ -2,26 +2,53 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Face
-from .utils.facerec import base64_to_np, crop_face
+from .utils.facerec import base64_to_np, crop_face, predict
+import cv2
 
 # Create your views here.
 
 class RecognizeFace(APIView):
     def get(self, request):
-        return Response("HIIi", status=200)
+        return Response("", status=200)
 
     def post(self, request):
-        image_data = request.data['image']
-        image_data = base64_to_np(image_data)
-        image_data = crop_face(image_data)
+        # Get the image data from the request
+        data = request.body.decode("utf-8")
+        image_data = data['image']
+        
+        # Convert the base64-encoded image data to a numpy array
+        image_np = base64_to_np(image_data)
+        
+        # Crop the face from the image
+        cropped_face = crop_face(image_np)
+
+        # Check if the cropped face is already grayscale
+        if len(cropped_face.shape) == 2:
+            cropped_face_gray = cropped_face
+        else:  # Convert to grayscale
+            cropped_face_gray = cv2.cvtColor(cropped_face, cv2.COLOR_RGB2GRAY)
+        
+        # Load the trained face recognition model (LBPH)
+        face_recognizer = cv2.face.LBPHFaceRecognizer_create()
+        face_recognizer.read('lbph_classifier.yml')
 
         for face in Face.objects.all():
-            # if face.image == image_data:
-            return Response("")
-
-        return Response(status=200)
-
-
+            # Convert the base64-encoded image data of the face in the database to a numpy array
+            database_face_np = base64_to_np(face.image64)
+            
+            # Crop the face from the database image
+            database_face_cropped = crop_face(database_face_np)
+            database_face_gray = cv2.cvtColor(database_face_cropped, cv2.COLOR_RGB2GRAY)
+            
+            # Use the face recognition model to predict the identity of the face
+            label, confidence = face_recognizer.predict(database_face_gray)
+            
+            # Check if the recognized face matches any face in the database within a certain threshold
+            if label == 1 and confidence < 50:  # Adjust threshold as needed
+                return Response("Face recognized successfully")
+        
+        # If no matching face is found in the database
+        return Response("Face not recognized", status=400)
 
 class AddFace(APIView):
     model = Face
@@ -32,28 +59,28 @@ class AddFace(APIView):
         return Response({'message': 'Face added successfully'}, status=200)
 
 
-# class CompareFaces(APIView):
-#     def post(self, request):
-#         image1_base64 = request.data.get('image1')
-#         image2_base64 = request.data.get('image2')
+class CompareFace(APIView):
+    def post(self, request):
+        image1_base64 = request.data.get('image1')
+        image2_base64 = request.data.get('image2')
         
-#         if not image1_base64 or not image2_base64:
-#             return Response({'error': 'Both images are required'}, status=400)
+        if not image1_base64 or not image2_base64:
+            return Response({'error': 'Both images are required'}, status=400)
         
-#         image1_np = base64_to_np(image1_base64)
-#         image2_np = base64_to_np(image2_base64)
+        image1_np = base64_to_np(image1_base64)
+        image2_np = base64_to_np(image2_base64)
         
-#         recognized_faces1 = recognize_face(image1_np)
-#         recognized_faces2 = recognize_face(image2_np)
+        recognized_faces1 = RecognizeFace(image1_np)
+        recognized_faces2 = RecognizeFace(image2_np)
         
-#         if recognized_faces1 and recognized_faces2:
-#             faces_match = compare_faces(recognized_faces1, recognized_faces2)
+        if recognized_faces1 and recognized_faces2:
+            faces_match = CompareFace(recognized_faces1, recognized_faces2)
             
-#             if faces_match:
-#                 return Response({'match': True}, status=200)
-#             else:
-#                 return Response({'match': False}, status=200)
-#         else:
-#             return Response({'error': 'No faces detected in one or both images'}, status=400)
+            if faces_match:
+                return Response({'match': True}, status=200)
+            else:
+                return Response({'match': False}, status=200)
+        else:
+            return Response({'error': 'No faces detected in one or both images'}, status=400)
 
 
