@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Text,View,StyleSheet} from "react-native"
+import { useState, useEffect } from 'react'
 
 const RecentContacts = () => {
+    const apiUrl = process.env.EXPO_PUBLIC_API_URL;
     const [contacts, setContacts] = useState([])
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/contacts')
+        fetch(`${apiUrl}/api/contacts`)
         .then(response => response.json())
         .then(data => setContacts(data))
     }, [])
