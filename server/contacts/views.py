@@ -17,6 +17,7 @@ from .serializers import (
     ContactSerializer,
     RelationshipSerializer,
     MapContactEventSerializer,
+    ContactSummarySerializer,
 )
 from django.contrib.auth import get_user_model
 
@@ -33,7 +34,7 @@ class ProfileList(APIView):
 
 class ContactList(APIView):
     model = Contact
-    serializer_class = ContactSerializer
+    serializer_class = ContactSummarySerializer
     queryset = Contact.objects.all()
 
     def get_queryset(self):
@@ -66,7 +67,7 @@ class ContactDetail(APIView):
         contact = self.get_queryset()
         serializer = self.serializer_class(contact)  # Remove many=True
         return Response(serializer.data)
-    
+
     def post(self, request, pk, format=None):
         # Fetch the Profile associated with the current user
         try:
@@ -191,6 +192,7 @@ class MapContactEventListCreate(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class RecentThreeContacts(APIView):
     model = Contact
